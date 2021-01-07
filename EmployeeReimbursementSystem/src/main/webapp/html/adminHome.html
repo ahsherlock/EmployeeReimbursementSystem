@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Employee Reimbursement</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <h1>ADMIN MENU</h1>
+    <div class="displayExpenseTableDiv">
+        <h3>All Employee Expenses</h3>
+        <table border="2" class="table" id="expenseTable">
+            <thead>
+                <tr>
+                    <th>Expense Number</th>
+                    <th>Employee Id</th>
+                    <th>Expense Type</th>
+                    <th>Amount</th>
+                    <th>Date Submitted</th>
+                    <th>Date Resolved</th>
+                    <th>Status</th>
+                    <th>Expense Description</th>
+                </tr>
+            </thead>
+            <tbody id="tableBod">
+
+            </tbody>
+        </table>
+
+    </div>
+    <br>
+
+    <form id="expensesForm">
+        <select id="expStatus" class="form-select mb-3" aria-label="Default select example">
+            <option selected> TYPE </option>
+            <option value="p"> PENDING </option>
+            <option value="c"> COMPLETED </option>
+            <option value="d"> DENIED </option>
+            <option value="a"> ALL </option>
+        </select>
+    </form>
+    <button type="button" id="displayButton" class="btn btn-secondary" data-bs-dismiss="modal"
+        onclick="displaySelected()">Search</button>
+
+    <script type="text/javascript" src="../js/admin.js"></script>
+</body>
+
+</html>
