@@ -53,14 +53,18 @@ function expenseSorting(expensesList, userSelection) {
             approveButton.id = "approveButton";
             approveButton.innerHTML = "Approve Expense";
             approveButton.setAttribute("data", element.expense_id);
+            approveButton.setAttribute("type", "button");
+            approveButton.classList.add("butt");
             approveButton.classList.add("btn");
-            approveButton.classList.add("btn-success");
+            approveButton.classList.add("btn-outline-success");
             let denyButton = document.createElement("button");
             denyButton.id = "denyButton";
             denyButton.innerHTML = "Deny Expense";
             denyButton.classList.add("btn");
+            denyButton.classList.add("butt");
             denyButton.classList.add("btn-danger");
             denyButton.setAttribute("data", element.expense_id);
+            denyButton.setAttribute("type", "button");
             number.innerHTML = element.expense_id;
             employee.innerHTML = element.employee_id;
             switch (element.type) {
@@ -81,22 +85,32 @@ function expenseSorting(expensesList, userSelection) {
                     break;
             }
             amount.innerHTML = "$ " + element.amount.toFixed(2);
-            submitted.innerHTML = element.submitted;
-            resolved.innerHTML = element.resolved;
-            switch (element.status) {
-                case "p":
-                    status.innerHTML = "PENDING"
-                    break;
-                case "d":
-                    status.innerHTML = "DENIED";
-                    break;
-                case "c":
-                    status.innerHTML = "COMPLETED";
-                    break;
-                default:
-                    status.innerHTML = "PENDING";
-                    break;
+            submitted.innerHTML = dateStuff(element.submitted);
+            if (element.resolved == null) {
+                resolved.innerHTML = "";
+            } else {
+                resolved.innerHTML = dateStuff(element.resolved);
             }
+    		switch (element.status) {
+			case "p":
+				status.innerHTML = "<strong>PENDING</strong>"
+				status.classList.add("text-info");
+				break;
+			case "d":
+				status.innerHTML = "<strong>DENIED</strong>";
+				status.classList.add("text-danger");
+
+				break;
+			case "c":
+				status.innerHTML = "<strong>COMPLETED</strong>";
+				status.classList.add("text-success");
+
+				break;
+			default:
+				status.innerHTML = "<strong>PENDING</strong>";
+				status.classList.add("text-info");
+				break;
+		}
             description.innerHTML = element.description;
             row.appendChild(number);
             row.appendChild(employee);
@@ -126,14 +140,18 @@ function expenseSorting(expensesList, userSelection) {
             approveButton.id = "approveButton";
             approveButton.innerHTML = "Approve Expense";
             approveButton.setAttribute("data", element.expense_id);
+            approveButton.setAttribute("type", "button");
             approveButton.classList.add("btn");
-            approveButton.classList.add("btn-success");
+            approveButton.classList.add("butt");
+            approveButton.classList.add("btn-outline-success");
             let denyButton = document.createElement("button");
             denyButton.id = "denyButton";
             denyButton.innerHTML = "Deny Expense";
             denyButton.classList.add("btn");
+            denyButton.classList.add("butt");
             denyButton.classList.add("btn-danger");
             denyButton.setAttribute("data", element.expense_id);
+            denyButton.setAttribute("type", "button");
             number.innerHTML = element.expense_id;
             employee.innerHTML = element.employee_id;
             switch (element.type) {
@@ -154,22 +172,32 @@ function expenseSorting(expensesList, userSelection) {
                     break;
             }
             amount.innerHTML = "$ " + element.amount.toFixed(2);
-            submitted.innerHTML = element.submitted;
-            resolved.innerHTML = element.resolved;
-            switch (element.status) {
-                case "p":
-                    status.innerHTML = "PENDING"
-                    break;
-                case "d":
-                    status.innerHTML = "DENIED";
-                    break;
-                case "c":
-                    status.innerHTML = "COMPLETED";
-                    break;
-                default:
-                    status.innerHTML = "PENDING";
-                    break;
+            submitted.innerHTML = dateStuff(element.submitted);
+            if (element.resolved == null) {
+                resolved.innerHTML = "";
+            } else {
+                resolved.innerHTML = dateStuff(element.resolved);
             }
+    		switch (element.status) {
+			case "p":
+				status.innerHTML = "<strong>PENDING</strong>"
+				status.classList.add("text-info");
+				break;
+			case "d":
+				status.innerHTML = "<strong>DENIED</strong>";
+				status.classList.add("text-danger");
+
+				break;
+			case "c":
+				status.innerHTML = "<strong>COMPLETED</strong>";
+				status.classList.add("text-success");
+
+				break;
+			default:
+				status.innerHTML = "<strong>PENDING</strong>";
+				status.classList.add("text-info");
+				break;
+		}
             description.innerHTML = element.description;
             row.appendChild(number);
             row.appendChild(employee);
@@ -205,13 +233,17 @@ function DOMManipulation(expensesList) {
         approveButton.id = "approveButton";
         approveButton.innerHTML = "Approve Expense";
         approveButton.setAttribute("data", element.expense_id);
+        approveButton.setAttribute("type", "button");
         approveButton.classList.add("btn");
-        approveButton.classList.add("btn-success");
+        approveButton.classList.add("butt");
+        approveButton.classList.add("btn-outline-success");
         let denyButton = document.createElement("button");
         denyButton.id = "denyButton";
         denyButton.innerHTML = "Deny Expense";
         denyButton.classList.add("btn");
-        denyButton.classList.add("btn-danger");
+        denyButton.classList.add("butt");
+        denyButton.classList.add("btn-outline-danger");
+        denyButton.setAttribute("type", "button");
         denyButton.setAttribute("data", element.expense_id);
         number.innerHTML = element.expense_id;
         employee.innerHTML = element.employee_id;
@@ -233,22 +265,32 @@ function DOMManipulation(expensesList) {
                 break;
         }
         amount.innerHTML = "$ " + element.amount.toFixed(2);
-        submitted.innerHTML = element.submitted;
-        resolved.innerHTML = element.resolved;
-        switch (element.status) {
-            case "p":
-                status.innerHTML = "PENDING"
-                break;
-            case "d":
-                status.innerHTML = "DENIED";
-                break;
-            case "c":
-                status.innerHTML = "COMPLETED";
-                break;
-            default:
-                status.innerHTML = "PENDING";
-                break;
+        submitted.innerHTML = dateStuff(element.submitted);
+        if (element.resolved == null) {
+            resolved.innerHTML = "";
+        } else {
+            resolved.innerHTML = dateStuff(element.resolved);
         }
+		switch (element.status) {
+		case "p":
+			status.innerHTML = "<strong>PENDING</strong>"
+			status.classList.add("text-info");
+			break;
+		case "d":
+			status.innerHTML = "<strong>DENIED</strong>";
+			status.classList.add("text-danger");
+
+			break;
+		case "c":
+			status.innerHTML = "<strong>COMPLETED</strong>";
+			status.classList.add("text-success");
+
+			break;
+		default:
+			status.innerHTML = "<strong>PENDING</strong>";
+			status.classList.add("text-info");
+			break;
+	}
         description.innerHTML = element.description;
         row.appendChild(number);
         row.appendChild(employee);
@@ -314,3 +356,33 @@ document.addEventListener('click', function (e) {
         }
     }
 });
+
+function logout() {
+    console.log("LOGOUT FUNCTION CALLED");
+    let xhttp = new XMLHttpRequest();
+    let url = "http://localhost:8080/EmployeeReimbursementSystem/api/logout";
+    xhttp.open("GET", url);
+    xhttp.send();
+
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            window.location.replace("http://localhost:8080/EmployeeReimbursementSystem/api");
+        }
+    }
+}
+
+function dateStuff(dateInMilli) {
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let newDate = new Date(dateInMilli);
+    let year = newDate.getFullYear();
+    let month = months[newDate.getMonth()];
+    let day = days[newDate.getDay()];
+    let dayNumber = newDate.getDate();
+    let hour = newDate.getHours();
+    let minutes = newDate.getMinutes();
+    let seconds = newDate.getSeconds();
+    let fullDate = day + " / " + month + " / " + dayNumber + " / " + year;
+    return fullDate;
+
+}

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reimbursement.models.Employee;
 import com.reimbursement.models.Expense;
@@ -17,6 +19,7 @@ import com.reimbursement.service.ExpenseService;
 
 public class EmployeeController {
 	private static ExpenseService expServ = new ExpenseService();
+	private static Logger log = Logger.getLogger(EmployeeController.class);
 	public static long millisecondTime = System.currentTimeMillis();
 	public static Date currentDate = new java.sql.Date(millisecondTime);
 	
@@ -28,7 +31,7 @@ public class EmployeeController {
 		response.setContentType("application/json");
 		HttpSession session = request.getSession(false);
 		Employee loggedInEmployee = (Employee)session.getAttribute("loggedInEmployee");
-		System.out.println("loggedInEmployee from session attribute: " + loggedInEmployee);
+		log.info("loggedInEmployee from session attribute: " + loggedInEmployee);
 		if(session != null) {
 			List<Expense> employeeExpenses = expServ.selectExpensesByEmployeeId(loggedInEmployee.getEmployee_id());
 			ObjectMapper om = new ObjectMapper();
@@ -38,17 +41,28 @@ public class EmployeeController {
 	public static void insertNewEmployeeExpense(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		HttpSession session = request.getSession(false);
 		Employee loggedInEmployee = (Employee)session.getAttribute("loggedInEmployee");
-		System.out.println("loggedInEmployee sessionAttribute from insertNewEmployeeExpense: " + loggedInEmployee);
+		log.info("loggedInEmployee sessionAttribute from insertNewEmployeeExpense: " + loggedInEmployee);
 		if(session != null) {
 			ObjectMapper om = new ObjectMapper();
 			Expense newEmployeeExpense = om.readValue(request.getReader(), com.reimbursement.models.Expense.class);
 			newEmployeeExpense.setEmployee_id(loggedInEmployee.getEmployee_id());
 			newEmployeeExpense.setSubmitted(currentDate);
 			newEmployeeExpense.setStatus("p");
-			System.out.println("NEW EMPLOYEE EXPENSE: " + newEmployeeExpense);
+			log.info("NEW EMPLOYEE EXPENSE: " + newEmployeeExpense);
 			expServ.createEmployeeExpense(newEmployeeExpense);
 		}
 		
+	}
+	public static void deleteExpense(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException{
+		HttpSession session = request.getSession(false);
+		Employee loggedInEmployee = (Employee) session.getAttribute("loggedInEmployee");
+		log.info("loggedInEmployee sessionAttribute from deleteExpense: " + loggedInEmployee);
+		if(session != null) {
+			ObjectMapper om = new ObjectMapper();
+			Expense deletedExpense = om.readValue(request.getReader(),com.reimbursement.models.Expense.class);
+			log.info("Expense to be DELETED: " + expServ.selectExpenseByExpenseId(deletedExpense.getExpense_id()));
+			expServ.deleteExpenseById(deletedExpense.getExpense_id());
+		}
 	}
 
 }

@@ -28,20 +28,24 @@ function submitExpense() {
 		amount: document.getElementById("amount").value,
 		description: document.getElementById("description").value
 	}
-	let newEmployeeExpenseString = JSON.stringify(newEmployeeExpense);
-	console.log(newEmployeeExpenseString);
-	let url = "http://localhost:8080/EmployeeReimbursementSystem/api/employeehome/expenses";
-	xhttp.open("POST", url);
-	xhttp.send(newEmployeeExpenseString);
-	xhttp.onreadystatechange = function () {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-			document.getElementById("expenseTable").getElementsByTagName("tbody")[0].innerHTML = "";
-			getExpenses();
+	if(newEmployeeExpense.amount < 0){
+		alert("ENTER A NUMBER GREATER THAN ZERO!");
+		formReset();
+	}else{
+		let newEmployeeExpenseString = JSON.stringify(newEmployeeExpense);
+		console.log(newEmployeeExpenseString);
+		let url = "http://localhost:8080/EmployeeReimbursementSystem/api/employeehome/expenses";
+		xhttp.open("POST", url);
+		xhttp.send(newEmployeeExpenseString);
+		xhttp.onreadystatechange = function () {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+				document.getElementById("expenseTable").getElementsByTagName("tbody")[0].innerHTML = "";
+				getExpenses();
+			}
 		}
 	}
+
 }
-
-
 
 function DOMManipulation(expensesList) {
 	expensesList.forEach(element => {
@@ -75,23 +79,41 @@ function DOMManipulation(expensesList) {
 				break;
 		}
 		amount.innerHTML = "$ " + element.amount.toFixed(2);
-		submitted.innerHTML = element.submitted;
-		resolved.innerHTML = element.resolved;
+		submitted.innerHTML = dateStuff(element.submitted);
+		if (element.resolved == null) {
+			resolved.innerHTML = "";
+		} else {
+			resolved.innerHTML = dateStuff(element.resolved);
+		}
 		switch (element.status) {
 			case "p":
-				status.innerHTML = "PENDING"
+				status.innerHTML = "<strong>PENDING</strong>"
+				status.classList.add("text-info");
 				break;
 			case "d":
-				status.innerHTML = "DENIED";
+				status.innerHTML = "<strong>DENIED</strong>";
+				status.classList.add("text-danger");
+
 				break;
 			case "c":
-				status.innerHTML = "COMPLETED";
+				status.innerHTML = "<strong>COMPLETED</strong>";
+				status.classList.add("text-success");
+
 				break;
 			default:
-				status.innerHTML = "PENDING";
+				status.innerHTML = "<strong>PENDING</strong>";
+				status.classList.add("text-info");
 				break;
 		}
 		description.innerHTML = element.description;
+		let deleteButton = document.createElement("button");
+		deleteButton.id = "deleteButton";
+		deleteButton.innerHTML = "Delete Expense";
+		deleteButton.setAttribute("data", element.expense_id);
+		deleteButton.setAttribute("type", "button");
+		deleteButton.classList.add("btn");
+		deleteButton.classList.add("butt");
+		deleteButton.classList.add("btn-outline-danger");
 		row.appendChild(number);
 		row.appendChild(type);
 		row.appendChild(amount);
@@ -99,6 +121,7 @@ function DOMManipulation(expensesList) {
 		row.appendChild(resolved);
 		row.appendChild(status);
 		row.appendChild(description);
+		row.appendChild(deleteButton);
 		table.appendChild(row);
 	})
 }
@@ -111,4 +134,62 @@ function formatAmount() {
 function formReset() {
 	let form = document.getElementById("expensesForm");
 	form.reset();
+}
+
+function logout() {
+	console.log("LOGOUT FUNCTION CALLED");
+	let xhttp = new XMLHttpRequest();
+	let url = "http://localhost:8080/EmployeeReimbursementSystem/api/logout";
+	xhttp.open("GET", url);
+	xhttp.send();
+	xhttp.onreadystatechange = function () {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			window.location.replace("http://localhost:8080/EmployeeReimbursementSystem/api");
+		}
+	}
+}
+
+document.addEventListener('click', function (e) {
+	if (e.target && e.target.id == 'deleteButton') {
+		let xhttp = new XMLHttpRequest();
+		let fakeExpense = {
+			expense_id: e.target.getAttribute('data'),
+			employee_id: 0,
+			type: "",
+			amount: 20,
+			submitted: "",
+			resolved: "",
+			status: "c",
+			description: ""
+		}
+		let newFakeExpenseString = JSON.stringify(fakeExpense);
+		let url = "http://localhost:8080/EmployeeReimbursementSystem/api/employeehome/delete";
+		xhttp.open("POST", url);
+		xhttp.send(newFakeExpenseString);
+		xhttp.onreadystatechange = function () {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+				document.getElementById("expenseTable").getElementsByTagName("tbody")[0].innerHTML = "";
+				getExpenses();
+			}
+		}
+
+	}
+});
+
+
+function dateStuff(dateInMilli) {
+	let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	let newDate = new Date(dateInMilli);
+	let year = newDate.getFullYear();
+	let month = months[newDate.getMonth()];
+	let day = days[newDate.getDay()];
+	let dayNumber = newDate.getDate();
+	let hour = newDate.getHours();
+	let minutes = newDate.getMinutes();
+	let seconds = newDate.getSeconds();
+	let fullDate = day + " / " + month + " / " + dayNumber + " / " + year;
+	return fullDate;
+
+
 }

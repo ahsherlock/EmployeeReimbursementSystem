@@ -4,18 +4,104 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Employee Reimbursement</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" src="../css/sitewide.css">
+    <style>
+    	html{font-family: system-ui;}
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .centerDatTextPlz {
+            text-align: center;
+        }
+
+        input[type=text],
+        select,
+        textarea {
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: black;
+            color: white;
+        }
+
+        input[type=text]:focus {
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: black;
+            color: white;
+            outline: none;
+        }
+
+        textarea {
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: black;
+            color: white;
+        }
+
+        textarea:focus {
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: black;
+            color: white;
+            outline: none;
+        }
+
+        #pendingText {
+            color: purple;
+        }
+
+        #completedText {
+            color: green;
+        }
+
+        #deniedText {
+            color: red;
+        }
+
+        .button-position {
+            float: right;
+        }
+
+        .logoutButton {
+            margin-right: 45px;
+        }
+
+        .buttonDiv {
+            text-align: center;
+        }
+
+        .butt {
+            background-color: black;
+            margin-left: 10px;
+            margin-bottom: 4px;
+        }
+
+        tbody,
+        td,
+        th {
+            text-align: center;
+        }
+    </style>
 </head>
 
+
 <body>
-    <h1>EMPLOYEE MENU</h1>
+
+
+
     <div class="displayExpenseTableDiv">
-        <h3>Past Expenses</h3>
-        <table border="2" class="table" id="expenseTable">
+        <button id="logoutButton" class="btn btn-outline-info button-position" type="button"
+            onclick="logout()">Logout</button>
+        <h3 class="centerDatTextPlz">Past Expenses</h3>
+        <table border="2" class="table table-dark" id="expenseTable">
             <thead>
                 <tr>
                     <th>Expense Number</th>
@@ -34,22 +120,51 @@
 
     </div>
     <br>
-    <h2>Submit a ticket</h2>
-    <form id="expensesForm">
-        <select id="type" class="form-select mb-3" aria-label="Default select example">
-            <option selected value=""> TYPE </option>
-            <option value="l"> LODGING </option>
-            <option value="t"> TRAVEL </option>
-            <option value="f"> FOOD </option>
-            <option value="o"> OTHER </option>
-        </select>
-        <input class="form-control mb-3" id="amount" placeholder="Amount" step="0.01">
-        <textarea class="form-control mb-3" id="description" placeholder="Description"></textarea>
-    </form>
-    <button type="button" id="cancelButton" class="btn btn-secondary" data-bs-dismiss="modal"
-        onclick="formReset()">Cancel</button>
-    <button type="button" id="submitButton" class="btn btn-secondary" data-bs-dismiss="modal"
-        onclick="submitExpense()">Submit</button>
+
+    <h2 class="centerDatTextPlz">Submit a ticket</h2>
+    <div class="container">
+        <form id="expensesForm">
+            <div class="row">
+                <div class="col-25">
+                    <label for="Expense Type"> Expense Type</label>
+                </div>
+                <div class="col-75">
+                    <select id="type" class="form-select mb-3" aria-label="Default select example">
+                        <option selected value=""> TYPE </option>
+                        <option value="l"> LODGING </option>
+                        <option value="t"> TRAVEL </option>
+                        <option value="f"> FOOD </option>
+                        <option value="o"> OTHER </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="Expense Amount">Expense Amount</label>
+                </div>
+                <div class="col-75">
+                    <input type="number" class=" form-control mb-3" id="amount" placeholder="Amount" step="0.01" min="0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="Expense Description">Expense Description</label>
+                </div>
+                <div class="col-75">
+                    <textarea class="form-control mb-3" id="description" placeholder="Description"></textarea>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="buttonDiv">
+        <button type="button" id="cancelButton" class="btn btn-secondary " data-bs-dismiss="modal"
+            onclick="formReset()">Cancel</button>
+        <button type="button" id="submitButton" class="btn btn-secondary" data-bs-dismiss="modal"
+            onclick="submitExpense()">Submit</button>
+    </div>
+
 
 
     <script type="text/javascript" src="../js/employee.js"></script>

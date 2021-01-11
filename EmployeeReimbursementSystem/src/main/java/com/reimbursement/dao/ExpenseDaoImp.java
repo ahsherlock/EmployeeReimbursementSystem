@@ -1,6 +1,7 @@
 package com.reimbursement.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,8 @@ import com.reimbursement.models.Expense;
 import com.reimbursement.utilities.ConnectionFactory;
 
 public class ExpenseDaoImp implements ExpenseDao {
+	public static long millisecondTime = System.currentTimeMillis();
+	public static Date currentDate = new java.sql.Date(millisecondTime);
 
 	public boolean insertExpense(Expense e) {
 		String sql = "INSERT INTO expenses(employee_id,type, amount, submitted, status, description) "+
@@ -146,9 +149,10 @@ public class ExpenseDaoImp implements ExpenseDao {
 	@Override
 	public void approveExpenseById(int id) {
 		try(Connection conn = ConnectionFactory.getConnection()){
-			String sql = "UPDATE expenses SET status = 'c' where expense_id =?;";
+			String sql = "UPDATE expenses SET status = 'c', resolved = ? where expense_id =?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setDate(1, currentDate);
+			ps.setInt(2, id);
 			ps.execute();
 		}catch(SQLException exception) {
 			exception.printStackTrace();
@@ -161,9 +165,10 @@ public class ExpenseDaoImp implements ExpenseDao {
 	@Override
 	public void denyExpenseById(int id) {
 		try(Connection conn = ConnectionFactory.getConnection()){
-			String sql = "UPDATE expenses SET status = 'd' where expense_id =?;";
+			String sql = "UPDATE expenses SET status = 'd', resolved = ? where expense_id =?;";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setDate(1, currentDate);
+			ps.setInt(2, id);
 			ps.execute();
 		}catch(SQLException exception) {
 			exception.printStackTrace();

@@ -1,20 +1,24 @@
 package com.reimbursement.service;
 
+import org.apache.log4j.Logger;
+
+import com.reimbursement.controllers.AdminController;
 import com.reimbursement.dao.EmployeeDao;
 import com.reimbursement.dao.EmployeeDaoImp;
 import com.reimbursement.models.Employee;
 
 public class EmployeeService {
 	private EmployeeDao eDao = new EmployeeDaoImp();
+	private static Logger log = Logger.getLogger(EmployeeService.class);
 	
 	
 	public boolean ValidateEmployee(String username, String password) {
 		Employee loggedInEmployee = eDao.selectEmployeeByUsername(username);
 		if(loggedInEmployee.getPassword().equals(password)) {
-			System.out.println("Employee matches");
+			log.info("Employee matches");
 			return true;
 		}else {
-			System.out.println("Employee Mismatch. Try again");
+			log.info("Employee Mismatch. Try again");
 			return false;
 		}
 	}

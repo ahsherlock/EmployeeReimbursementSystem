@@ -7,10 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.reimbursement.controllers.AdminController;
 import com.reimbursement.models.Employee;
 import com.reimbursement.utilities.ConnectionFactory;
 
 public class EmployeeDaoImp implements EmployeeDao {
+	private static Logger log = Logger.getLogger(EmployeeDaoImp.class);
 
 	public List<Employee> selectAllEmployees() {
 		List<Employee> employeeList = new ArrayList<>();
@@ -94,7 +98,7 @@ public class EmployeeDaoImp implements EmployeeDao {
 		ps.execute();
 		
 	}catch(SQLException e) {
-		System.out.println("Emp was not added successfully");
+		log.info("Emp was not added successfully");
 		e.printStackTrace();
 		return false;
 
@@ -116,7 +120,7 @@ public class EmployeeDaoImp implements EmployeeDao {
 		ps.execute();
 		
 	}catch(SQLException e) {
-		System.out.println("Emp was not added successfully");
+		log.info("Emp was not added successfully");
 		e.printStackTrace();
 		return false;
 
@@ -149,11 +153,11 @@ public class EmployeeDaoImp implements EmployeeDao {
 			ps.setInt(1, id);
 			ps.execute();
 		}catch(SQLException ex) {
-			System.out.println("Failure to delete");
+			log.info("Failure to delete");
 			ex.printStackTrace();
 			return false;
 		}
-		System.out.println("Employee deleted");
+		log.info("Employee deleted");
 		return true;
 	}
 }
