@@ -36,9 +36,10 @@ To start this application:
 2. Be sure to have JDK.
 
 Clone the repository
-`git clone https://github.com/2012JavaReston/ExpenseReimbursement-Project-1.git`  
-Run the application on the Apache Tomcat 9.0 server
-Open your browers and enter: http://localhost:8080/EmployeeReimbursementSystem/api/ into the URL bar<br/><br/>
+`git clone https://github.com/2012JavaReston/ExpenseReimbursement-Project-1.git` 
+-  Import Existing Maven Project into Spring Tool Suite 
+-  Run the application on the Apache Tomcat 9.0 server
+-  Open your browers and enter: http://localhost:8080/EmployeeReimbursementSystem/api/ into the URL bar<br/><br/>
 
 
 
